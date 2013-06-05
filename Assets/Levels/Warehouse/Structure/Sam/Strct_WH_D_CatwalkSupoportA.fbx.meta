@@ -1,0 +1,83 @@
+fileFormatVersion: 2
+guid: 739a5b357caa45945b6ab5b74a573c29
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: CatwalkSupportA
+    100002: transform3962
+    100004: polySurface6147
+    100006: transform3965
+    100008: polySurface6142
+    100010: polySurface4757
+    100012: transform3963
+    100014: polySurface6146
+    100016: transform3964
+    100018: polySurface6145
+    100020: //RootNode
+    400000: CatwalkSupportA
+    400002: transform3962
+    400004: polySurface6147
+    400006: transform3965
+    400008: polySurface6142
+    400010: polySurface4757
+    400012: transform3963
+    400014: polySurface6146
+    400016: transform3964
+    400018: polySurface6145
+    400020: //RootNode
+    2300000: CatwalkSupportA
+    3300000: CatwalkSupportA
+    4300000: CatwalkSupportA
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 3
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 1
+  userData: 
