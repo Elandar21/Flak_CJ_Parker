@@ -1,0 +1,80 @@
+fileFormatVersion: 2
+guid: 6d31c14106155f04fb81973a8c69baab
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: Rig
+    100002: Mesh
+    100004: catridge_root_joint
+    100006: fire_joint
+    100008: cartridge_end_joint
+    100010: //RootNode
+    100012: slide_joint
+    100014: grip_joint
+    100016: trigger_joint
+    100018: root
+    400000: Rig
+    400002: Mesh
+    400004: catridge_root_joint
+    400006: fire_joint
+    400008: cartridge_end_joint
+    400010: //RootNode
+    400012: slide_joint
+    400014: grip_joint
+    400016: trigger_joint
+    400018: root
+    4300000: Mesh
+    11100000: //RootNode
+    13700000: Mesh
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 3
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 1
+  userData: 
