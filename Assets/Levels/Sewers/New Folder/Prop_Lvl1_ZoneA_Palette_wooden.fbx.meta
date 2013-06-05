@@ -1,0 +1,132 @@
+fileFormatVersion: 2
+guid: a3621c0a5880bfd49a0ff4c74bb346b3
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: polySurface1
+    100002: transform1
+    100004: pallet_pCube29
+    100006: transform2
+    100008: pallet_pCube28
+    100010: transform3
+    100012: pallet_pCube27
+    100014: transform4
+    100016: pallet_pCube26
+    100018: transform5
+    100020: pallet_pCube25
+    100022: transform6
+    100024: pallet_pCube24
+    100026: //RootNode
+    100028: transform7
+    100030: pallet_pCube23
+    100032: transform8
+    100034: pallet_pCube22
+    100036: transform9
+    100038: pallet_pCube21
+    100040: transform10
+    100042: pallet_pCube20
+    100044: transform11
+    100046: pallet_pCube19
+    100048: transform12
+    100050: pallet_pCube18
+    100052: transform13
+    100054: pallet_pCube17
+    100056: group1
+    400000: polySurface1
+    400002: transform1
+    400004: pallet_pCube29
+    400006: transform2
+    400008: pallet_pCube28
+    400010: transform3
+    400012: pallet_pCube27
+    400014: transform4
+    400016: pallet_pCube26
+    400018: transform5
+    400020: pallet_pCube25
+    400022: transform6
+    400024: pallet_pCube24
+    400026: //RootNode
+    400028: transform7
+    400030: pallet_pCube23
+    400032: transform8
+    400034: pallet_pCube22
+    400036: transform9
+    400038: pallet_pCube21
+    400040: transform10
+    400042: pallet_pCube20
+    400044: transform11
+    400046: pallet_pCube19
+    400048: transform12
+    400050: pallet_pCube18
+    400052: transform13
+    400054: pallet_pCube17
+    400056: group1
+    2300000: polySurface1
+    3300000: polySurface1
+    4300000: pallet_pCube16
+    4300002: pallet_pCube15
+    4300004: pallet_pCube14
+    4300006: pallet_pCube11
+    4300008: pallet_pCube10
+    4300010: pallet_pCube9
+    4300012: pallet_pCube8
+    4300014: pallet_pCube7
+    4300016: pallet_pCube6
+    4300018: pallet_pCube4
+    4300020: pallet_pCube3
+    4300022: pallet_pCube2
+    4300024: pallet_pCube1
+    4300026: polySurface1
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 3
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 1
+  userData: 

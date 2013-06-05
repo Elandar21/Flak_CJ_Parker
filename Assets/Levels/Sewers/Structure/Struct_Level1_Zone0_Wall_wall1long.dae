@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.0">
+  <asset>
+    <contributor>
+      <author></author>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments></comments>
+    </contributor>
+    <created>2012-10-10T15:14:22Z</created>
+    <modified>2012-10-10T15:14:22Z</modified>
+    <revision></revision>
+    <title></title>
+    <subject></subject>
+    <keywords></keywords>
+    <unit meter="1.000000"/>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_materials>
+    <material id="walltexture" name="walltexture">
+      <instance_effect url="#walltexture-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="walltexture-fx" name="walltexture">
+      <profile_COMMON>
+        <technique sid="standard">
+          <lambert>
+            <emission>
+              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.000000  0.000000 0.000000 1.000000</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.400000  0.400000 0.400000 1.000000</color>
+            </diffuse>
+            <transparent>
+              <color sid="transparent">0.000000  0.000000 0.000000 1.000000</color>
+            </transparent>
+            <transparency>
+              <float sid="transparency">1.000000</float>
+            </transparency>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="wall1long-lib" name="wall1longMesh">
+      <mesh>
+        <source id="wall1long-lib-Position">
+          <float_array id="wall1long-lib-Position-array" count="48">
+100.467506 -0.012865 0.324257
+100.651306 93.150650 -75.697662
+100.651306 307.632019 -75.697662
+100.467506 400.795563 0.324257
+0.000023 -0.012865 -0.000011
+0.000023 93.150650 -76.022163
+0.000023 307.632019 -76.022163
+0.000023 400.795563 -0.000011
+100.469986 -25.941214 -0.256371
+101.171249 80.185783 -97.908188
+101.171249 320.596863 -97.908188
+100.469986 426.723877 -0.256371
+0.000023 -25.942581 -0.578407
+0.000023 426.725220 -0.578407
+0.000023 80.185799 -96.378342
+0.000023 320.596863 -96.378342
+</float_array>
+          <technique_common>
+            <accessor source="#wall1long-lib-Position-array" count="16" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="wall1long-lib-Normal0">
+          <float_array id="wall1long-lib-Normal0-array" count="198">
+-0.002499 0.632227 0.774779
+-0.003038 0.335572 0.942010
+-0.003038 0.335572 0.942010
+-0.003038 0.335572 0.942010
+-0.002499 0.632227 0.774779
+-0.002499 0.632227 0.774779
+-0.003038 0.335572 0.942010
+-0.003038 -0.335572 0.942010
+-0.003038 -0.335572 0.942010
+-0.003038 -0.335572 0.942010
+-0.003038 0.335572 0.942010
+-0.003038 0.335572 0.942010
+-0.003038 -0.335572 0.942010
+-0.002499 -0.632227 0.774779
+-0.002499 -0.632227 0.774779
+-0.002499 -0.632227 0.774779
+-0.003038 -0.335572 0.942010
+-0.003038 -0.335572 0.942010
+0.999836 0.003123 0.017833
+0.999905 0.006245 0.012262
+0.999905 0.006245 0.012262
+0.999905 0.006245 0.012262
+0.999836 0.003123 0.017833
+0.999836 0.003123 0.017833
+0.999836 -0.003123 0.017833
+0.999836 0.003123 0.017833
+0.999836 0.003123 0.017833
+0.999836 0.003123 0.017833
+0.999836 -0.003123 0.017833
+0.999836 -0.003123 0.017833
+0.999905 -0.006245 0.012262
+0.999836 -0.003123 0.017833
+0.999836 -0.003123 0.017833
+0.999836 -0.003123 0.017833
+0.999905 -0.006245 0.012262
+0.999905 -0.006245 0.012262
+-0.003215 -0.022344 0.999745
+-0.003215 -0.022344 0.999745
+-0.003215 -0.022344 0.999745
+-0.003215 -0.022344 0.999745
+-0.003215 -0.022344 0.999745
+-0.003215 -0.022344 0.999745
+-0.003215 0.022344 0.999745
+-0.003215 0.022344 0.999745
+-0.003215 0.022344 0.999745
+-0.003215 0.022344 0.999745
+-0.003215 0.022344 0.999745
+-0.003215 0.022344 0.999745
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 -0.000000 0.000000
+-1.000000 -0.000000 0.000000
+-1.000000 -0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 -0.000000 0.000000
+-1.000000 -0.000000 0.000000
+-1.000000 -0.000000 0.000000
+-1.000000 -0.000000 0.000000
+-1.000000 -0.000000 0.000000
+-1.000000 -0.000000 0.000000
+</float_array>
+          <technique_common>
+            <accessor source="#wall1long-lib-Normal0-array" count="66" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="wall1long-lib-UV0">
+          <float_array id="wall1long-lib-UV0-array" count="64">
+0.129733 0.163551
+0.129733 0.014305
+0.129733 0.349345
+0.129733 0.498591
+0.028083 0.163551
+0.028083 0.014305
+0.028083 0.349345
+0.028083 0.498591
+0.542706 0.849581
+0.519466 0.861811
+0.542706 0.647268
+0.519466 0.635038
+0.637214 0.559390
+0.637214 0.534931
+0.111896 0.620090
+0.088664 0.620103
+0.028084 0.506870
+0.051315 0.506883
+0.511764 0.559390
+0.511764 0.535617
+0.028084 0.613333
+0.051318 0.613333
+0.419906 0.644803
+0.397318 0.632916
+0.419906 0.841441
+0.397318 0.853328
+0.511764 0.926854
+0.511764 0.950627
+0.111896 0.726554
+0.088661 0.726554
+0.637214 0.937459
+0.637214 0.961918
+</float_array>
+          <technique_common>
+            <accessor source="#wall1long-lib-UV0-array" count="32" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="wall1long-lib-Vertex">
+          <input semantic="POSITION" source="#wall1long-lib-Position"/>
+        </vertices>
+        <polygons material="walltexture" count="22">
+          <input semantic="VERTEX" offset="0" source="#wall1long-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#wall1long-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#wall1long-lib-UV0"/>
+          <p>0 0 1 1 1 0 5 2 4</p>
+          <p>5 3 4 4 4 5 0 5 1</p>
+          <p>1 6 0 2 7 2 6 8 6</p>
+          <p>6 9 6 5 10 4 1 11 0</p>
+          <p>2 12 2 3 13 3 7 14 7</p>
+          <p>7 15 7 6 16 6 2 17 2</p>
+          <p>1 18 8 0 19 30 8 20 31</p>
+          <p>8 21 31 9 22 9 1 23 8</p>
+          <p>2 24 10 1 25 8 9 26 9</p>
+          <p>9 27 9 10 28 11 2 29 10</p>
+          <p>3 30 12 2 31 10 10 32 11</p>
+          <p>10 33 11 11 34 13 3 35 12</p>
+          <p>0 36 14 4 37 28 12 38 29</p>
+          <p>12 39 29 8 40 15 0 41 14</p>
+          <p>7 42 20 3 43 16 11 44 17</p>
+          <p>11 45 17 13 46 21 7 47 20</p>
+          <p>4 48 18 5 49 22 14 50 23</p>
+          <p>14 51 23 12 52 19 4 53 18</p>
+          <p>5 54 22 6 55 24 15 56 25</p>
+          <p>15 57 25 14 58 23 5 59 22</p>
+          <p>6 60 24 7 61 26 13 62 27</p>
+          <p>13 63 27 15 64 25 6 65 24</p>
+        </polygons>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="RootNode" name="RootNode">
+      <node id="wall1long" name="wall1long">
+        <matrix sid="matrix">0.010000 0.000000 0.000000 0.000000 0.000000 0.010000 0.000000 -0.000000 0.000000 0.000000 0.010000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+        <instance_geometry url="#wall1long-lib">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="walltexture" target="#walltexture"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#RootNode"/>
+  </scene>
+</COLLADA>
+

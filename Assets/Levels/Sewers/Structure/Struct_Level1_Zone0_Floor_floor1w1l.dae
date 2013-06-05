@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author></author>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments></comments>
+    </contributor>
+    <created>2012-10-01T05:26:11Z</created>
+    <keywords></keywords>
+    <modified>2012-10-01T05:26:11Z</modified>
+    <revision></revision>
+    <subject></subject>
+    <title></title>
+    <unit meter="1.000000" name="centimeter"></unit>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_materials>
+    <material id="Halls_1c_lambert2" name="Halls_1c_lambert2">
+      <instance_effect url="#Halls_1c_lambert2-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="Halls_1c_lambert2-fx" name="Halls_1c_lambert2">
+      <profile_COMMON>
+        <technique sid="standard">
+          <lambert>
+            <emission>
+              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.000000  0.000000 0.000000 1.000000</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.400000  0.400000 0.400000 1.000000</color>
+            </diffuse>
+            <transparent opaque="RGB_ZERO">
+              <color sid="transparent">0.000000  0.000000 0.000000 1.000000</color>
+            </transparent>
+            <transparency>
+              <float sid="transparency">1.000000</float>
+            </transparency>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="floor1w1l-lib" name="floor1w1lMesh">
+      <mesh>
+        <source id="floor1w1l-POSITION">
+          <float_array id="floor1w1l-POSITION-array" count="24">
+0.000000 -18.727919 0.000000
+99.777771 -18.727919 0.000000
+0.000000 0.000000 0.000000
+99.777771 0.000000 0.000000
+0.000000 0.000000 -99.777771
+99.777771 0.000000 -99.777771
+0.000000 -18.727919 -99.777771
+99.777771 -18.727919 -99.777771
+</float_array>
+          <technique_common>
+            <accessor source="#floor1w1l-POSITION-array" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="floor1w1l-Normal0">
+          <float_array id="floor1w1l-Normal0-array" count="90">
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 0.000000 1.000000
+0.000000 1.000000 0.000000
+0.000000 1.000000 0.000000
+0.000000 1.000000 0.000000
+0.000000 1.000000 0.000000
+0.000000 1.000000 0.000000
+0.000000 1.000000 0.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+0.000000 0.000000 -1.000000
+1.000000 0.000000 0.000000
+1.000000 0.000000 0.000000
+1.000000 0.000000 0.000000
+1.000000 0.000000 0.000000
+1.000000 0.000000 0.000000
+1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+-1.000000 0.000000 0.000000
+</float_array>
+          <technique_common>
+            <accessor source="#floor1w1l-Normal0-array" count="30" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="floor1w1l-UV0">
+          <float_array id="floor1w1l-UV0-array" count="40">
+0.943134 0.015078
+0.943161 0.052097
+0.035337 0.276241
+0.774237 0.261259
+0.774209 0.203801
+0.205970 0.446874
+0.774209 0.229790
+0.944842 0.229790
+0.944870 0.230633
+0.944870 0.261259
+0.772500 0.015078
+0.772500 0.045704
+0.774237 0.230633
+0.943161 0.082723
+0.772528 0.052097
+0.943134 0.045704
+0.035337 0.446874
+0.944842 0.203801
+0.772528 0.082723
+0.205970 0.276241
+</float_array>
+          <technique_common>
+            <accessor source="#floor1w1l-UV0-array" count="20" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="floor1w1l-VERTEX">
+          <input semantic="POSITION" source="#floor1w1l-POSITION"/>
+        </vertices>
+        <triangles count="10" material="Halls_1c_lambert2">
+          <input semantic="VERTEX" offset="0" source="#floor1w1l-VERTEX"/>
+          <input semantic="NORMAL" offset="1" source="#floor1w1l-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#floor1w1l-UV0"/>
+          <p> 3 0 13 2 1 18 0 2 14 3 3 13 0 4 14 1 5 1 5 6 5 2 7 2 3 8 19 2 9 2 5 10 5 4 11 16 7 12 7 6 13 6 4 14 4 7 15 7 4 16 4 5 17 17 5 18 9 3 19 3 1 20 12 1 21 12 7 22 8 5 23 9 2 24 15 6 25 10 0 26 0 6 27 10 2 28 15 4 29 11</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="" name="">
+      <node name="floor1w1l" id="floor1w1l" sid="floor1w1l">
+        <matrix sid="matrix">0.010000 0.000000 0.000000 0.000000 0.000000 0.010000 0.000000 0.000000 0.000000 0.000000 0.010000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+        <instance_geometry url="#floor1w1l-lib">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Halls_1c_lambert2" target="#Halls_1c_lambert2"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+        <extra>
+          <technique profile="FCOLLADA">
+            <visibility>1.000000</visibility>
+          </technique>
+        </extra>
+      </node>
+      <extra>
+        <technique profile="MAX3D">
+          <frame_rate>24.000000</frame_rate>
+        </technique>
+        <technique profile="FCOLLADA">
+          <start_time>0.041667</start_time>
+          <end_time>2.000000</end_time>
+        </technique>
+      </extra>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#"></instance_visual_scene>
+  </scene>
+</COLLADA>
+

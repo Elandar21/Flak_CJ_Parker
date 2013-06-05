@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.0">
+  <asset>
+    <contributor>
+      <author></author>
+      <authoring_tool>FBX COLLADA exporter</authoring_tool>
+      <comments></comments>
+    </contributor>
+    <created>2012-10-10T15:15:01Z</created>
+    <modified>2012-10-10T15:15:01Z</modified>
+    <revision></revision>
+    <title></title>
+    <subject></subject>
+    <keywords></keywords>
+    <unit meter="1.000000"/>
+    <up_axis>Y_UP</up_axis>
+  </asset>
+  <library_materials>
+    <material id="walltexture" name="walltexture">
+      <instance_effect url="#walltexture-fx"/>
+    </material>
+  </library_materials>
+  <library_effects>
+    <effect id="walltexture-fx" name="walltexture">
+      <profile_COMMON>
+        <technique sid="standard">
+          <lambert>
+            <emission>
+              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0.000000  0.000000 0.000000 1.000000</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.400000  0.400000 0.400000 1.000000</color>
+            </diffuse>
+            <transparent>
+              <color sid="transparent">0.000000  0.000000 0.000000 1.000000</color>
+            </transparent>
+            <transparency>
+              <float sid="transparency">1.000000</float>
+            </transparency>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_geometries>
+    <geometry id="corner_outside_single-lib" name="corner_outside_singleMesh">
+      <mesh>
+        <source id="corner_outside_single-lib-Position">
+          <float_array id="corner_outside_single-lib-Position-array" count="54">
+-0.047567 -0.023587 0.051525
+77.043724 93.134499 0.052753
+74.844284 307.615875 0.052753
+-0.047567 400.773987 0.051525
+77.043709 93.134499 -0.317814
+74.844032 307.615875 -0.317814
+0.264673 93.134499 -76.949356
+0.264673 307.615875 -77.965759
+0.012993 93.134499 -76.949356
+0.012993 307.615875 -77.965759
+77.047264 93.134499 -76.948059
+74.905464 307.615875 -78.927505
+-0.052168 -25.958742 0.020313
+97.244652 80.169632 0.052753
+97.244652 320.580719 0.052753
+-0.052168 426.709106 0.020313
+0.012993 80.169647 -98.321930
+0.012993 320.580719 -98.321930
+</float_array>
+          <technique_common>
+            <accessor source="#corner_outside_single-lib-Position-array" count="18" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="corner_outside_single-lib-Normal0">
+          <float_array id="corner_outside_single-lib-Normal0-array" count="180">
+-0.942557 0.334044 -0.000242
+-0.941540 -0.336901 -0.000544
+-0.941540 -0.336901 -0.000544
+-0.941540 -0.336901 -0.000544
+-0.942557 0.334044 -0.000242
+-0.942557 0.334044 -0.000242
+-0.941540 -0.336901 -0.000544
+-0.779377 -0.626554 -0.000609
+-0.941540 -0.336901 -0.000544
+-0.942557 0.334044 -0.000242
+-0.770415 0.637543 -0.000036
+-0.942557 0.334044 -0.000242
+-0.000013 0.637099 0.770782
+0.003359 0.341839 0.939752
+0.003359 0.341839 0.939752
+0.003359 0.341839 0.939752
+0.008640 -0.338242 0.941019
+0.008640 -0.338242 0.941019
+0.008640 -0.338242 0.941019
+0.003359 0.341839 0.939752
+0.003359 0.341839 0.939752
+0.008640 -0.338242 0.941019
+0.009878 -0.642004 0.766638
+0.008640 -0.338242 0.941019
+0.000227 -0.000283 1.000000
+0.000454 -0.000566 1.000000
+0.000454 -0.000566 1.000000
+0.000454 -0.000566 1.000000
+0.000227 -0.000283 1.000000
+0.000227 -0.000283 1.000000
+0.000220 0.000275 1.000000
+0.000227 -0.000283 1.000000
+0.000227 -0.000283 1.000000
+0.000227 -0.000283 1.000000
+0.000220 0.000275 1.000000
+0.000220 0.000275 1.000000
+0.000440 0.000549 1.000000
+0.000220 0.000275 1.000000
+0.000220 0.000275 1.000000
+0.000220 0.000275 1.000000
+0.000440 0.000549 1.000000
+0.000440 0.000549 1.000000
+-1.000000 0.000315 -0.000358
+-1.000000 0.000158 -0.000179
+-1.000000 0.000158 -0.000179
+-1.000000 0.000158 -0.000179
+-1.000000 0.000315 -0.000358
+-1.000000 0.000315 -0.000358
+-1.000000 0.000158 -0.000179
+-1.000000 -0.000154 -0.000182
+-1.000000 -0.000154 -0.000182
+-1.000000 -0.000154 -0.000182
+-1.000000 0.000158 -0.000179
+-1.000000 0.000158 -0.000179
+-1.000000 -0.000154 -0.000182
+-1.000000 -0.000309 -0.000364
+-1.000000 -0.000309 -0.000364
+-1.000000 -0.000309 -0.000364
+-1.000000 -0.000154 -0.000182
+-1.000000 -0.000154 -0.000182
+</float_array>
+          <technique_common>
+            <accessor source="#corner_outside_single-lib-Normal0-array" count="60" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="corner_outside_single-lib-UV0">
+          <float_array id="corner_outside_single-lib-UV0-array" count="56">
+0.878550 0.153097
+0.878550 0.326474
+0.767646 0.326474
+0.767646 0.153097
+0.878596 0.465688
+0.878596 0.013882
+0.868671 0.987116
+0.757633 0.847933
+0.868739 0.847933
+0.757633 0.674665
+0.868739 0.674665
+0.868671 0.535482
+0.238375 0.846811
+0.215122 0.859047
+0.238375 0.644381
+0.215122 0.632145
+0.332938 0.556452
+0.332938 0.531980
+0.394166 0.559308
+0.394166 0.535584
+0.302498 0.644546
+0.279956 0.632684
+0.302498 0.840780
+0.279956 0.852642
+0.394166 0.926017
+0.394166 0.949741
+0.332938 0.934739
+0.332938 0.959212
+</float_array>
+          <technique_common>
+            <accessor source="#corner_outside_single-lib-UV0-array" count="28" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="corner_outside_single-lib-Vertex">
+          <input semantic="POSITION" source="#corner_outside_single-lib-Position"/>
+        </vertices>
+        <polygons material="walltexture" count="20">
+          <input semantic="VERTEX" offset="0" source="#corner_outside_single-lib-Vertex"/>
+          <input semantic="NORMAL" offset="1" source="#corner_outside_single-lib-Normal0"/>
+          <input semantic="TEXCOORD" offset="2" set="0" source="#corner_outside_single-lib-UV0"/>
+          <p>4 0 0 5 1 1 11 2 2</p>
+          <p>11 3 2 10 4 3 4 5 0</p>
+          <p>5 6 1 3 7 4 11 8 2</p>
+          <p>10 9 3 0 10 5 4 11 0</p>
+          <p>0 12 6 10 13 7 6 14 8</p>
+          <p>10 15 7 11 16 9 7 17 10</p>
+          <p>7 18 10 6 19 8 10 20 7</p>
+          <p>11 21 9 3 22 11 7 23 10</p>
+          <p>1 24 12 0 25 26 12 26 27</p>
+          <p>12 27 27 13 28 13 1 29 12</p>
+          <p>2 30 14 1 31 12 13 32 13</p>
+          <p>13 33 13 14 34 15 2 35 14</p>
+          <p>3 36 16 2 37 14 14 38 15</p>
+          <p>14 39 15 15 40 17 3 41 16</p>
+          <p>0 42 18 8 43 20 16 44 21</p>
+          <p>16 45 21 12 46 19 0 47 18</p>
+          <p>8 48 20 9 49 22 17 50 23</p>
+          <p>17 51 23 16 52 21 8 53 20</p>
+          <p>9 54 22 3 55 24 15 56 25</p>
+          <p>15 57 25 17 58 23 9 59 22</p>
+        </polygons>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="RootNode" name="RootNode">
+      <node id="corner_outside_single" name="corner_outside_single">
+        <matrix sid="matrix">0.010000 0.000000 0.000000 0.000000 0.000000 0.010000 0.000000 -0.000000 0.000000 0.000000 0.010000 0.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+        <instance_geometry url="#corner_outside_single-lib">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="walltexture" target="#walltexture"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#RootNode"/>
+  </scene>
+</COLLADA>
+
