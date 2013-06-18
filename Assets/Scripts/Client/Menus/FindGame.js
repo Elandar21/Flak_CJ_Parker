@@ -1,13 +1,18 @@
 
 public class FindGame extends MonoBehaviour{
 	var GameName : String = '';
+	var startTime = Time.time;
 
 	// Use this for initialization
 	function Start () {
+		this.gameObject.GetComponent(Client).data = MasterServer.PollHostList();
 	}
 	
 	// Update is called once per frame
 	function Update () {
+		if(Time.time - startTime > 1000){
+			this.gameObject.GetComponent(Client).data = MasterServer.PollHostList();
+		}
 	}
 	
 	function OnMasterServerEvent (msEvent : MasterServerEvent){

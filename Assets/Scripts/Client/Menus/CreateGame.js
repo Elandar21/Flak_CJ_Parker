@@ -39,8 +39,8 @@ public class CreateGame extends MonoBehaviour{
 		map = GUILayout.SelectionGrid(map,mapNameArray,2);
 		
 		//player count
-		PlayerCnt = GUILayout.SelectionGrid(playerCnt,playerNumArray,5);
-		
+		playerCnt = GUILayout.SelectionGrid(playerCnt,playerNumArray,5);
+		PlayerCnt = playerCnt;
 		//ask for time
 		gameTime = GUILayout.SelectionGrid(gameTime,gameTimeArray,5);
 		if(gameTimeArray[gameTime] != "Infinity")
