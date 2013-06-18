@@ -1,8 +1,11 @@
 .DS_Store
 Library
 Temp
+client_Data
 *.csproj
 *.pidb
 *.unityproj
 *.sln
 *.userprefs
+*.unitypackage
+*.exe
