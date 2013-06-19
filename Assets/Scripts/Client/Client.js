@@ -15,3 +15,7 @@ function Update () {
 
 }
 
+@RPC
+function whoAreYou( ){
+	
+}

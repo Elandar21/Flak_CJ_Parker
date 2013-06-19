@@ -27,7 +27,7 @@ public class GameLobby extends MonoBehaviour{
 	}
 	
 	function OnPlayerConnected(player: NetworkPlayer) {
-		
+		this.networkView.RPC("whoAreYou",RPCMode.player,);
 	}
 
 }
