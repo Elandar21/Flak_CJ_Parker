@@ -1,21 +1,14 @@
 #pragma strict
 //Contains any global information
 
-public var username : String = '';
-public var GameMap : String = '';
-public var TotalGameTime : int = -1;
-public var GameMaxKills : int = -1;
-public var data : HostData[];
+public var guiSkin : GUISkin;
 
 function Start (){
-	this.gameObject.AddComponent(login);
 }
 
-function Update () {
+function Update (){
 
 }
 
-@RPC
-function whoAreYou( ){
-	
-}
+//when the game starts the camera will parent to the mesh keeping the client script
+//that is the idea at least

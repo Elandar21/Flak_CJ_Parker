@@ -1,6 +1,5 @@
 
 public class Customization extends MonoBehaviour{
-	var GameName : String = '';
 
 	// Use this for initialization
 	function Start () {
@@ -8,9 +7,12 @@ public class Customization extends MonoBehaviour{
 	
 	// Update is called once per frame
 	function Update () {
+		
 	}
 	
 	function OnGUI() {
+		GUI.skin = this.gameObject.GetComponent(Client).guiSkin;
+		GUI.Box (Rect (0,0,Screen.width,Screen.height),"Customization");
 		GUILayout.BeginArea(Rect((Screen.width/2)-50,(Screen.height/2)-50,200,100));
 		//Customization options will be added here
 		if(GUILayout.Button("Back",GUILayout.Width(100))){

@@ -4,11 +4,25 @@ ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
     100000: //RootNode
+    100002: bndRIG
+    100004: fire_JNT
+    100006: GEO
+    100008: handGrip_JNT
+    100010: root_BND
+    100012: wpn_gun_flak_GEO
     400000: //RootNode
+    400002: bndRIG
+    400004: fire_JNT
+    400006: GEO
+    400008: handGrip_JNT
+    400010: root_BND
+    400012: wpn_gun_flak_GEO
     2300000: //RootNode
     3300000: //RootNode
     4300000: wpn_gun_Flak
+    4300002: wpn_gun_flak_GEO
     11100000: //RootNode
+    13700000: root_BND
   materials:
     importMaterials: 1
     materialName: 0

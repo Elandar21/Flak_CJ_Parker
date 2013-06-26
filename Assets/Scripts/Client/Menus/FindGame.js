@@ -1,61 +1,59 @@
 
 public class FindGame extends MonoBehaviour{
-	var GameName : String = '';
 	var startTime = Time.time;
+	private var data : HostData[];			 //list of host data to find server
 
 	// Use this for initialization
 	function Start () {
-		this.gameObject.GetComponent(Client).data = MasterServer.PollHostList();
+		data = MasterServer.PollHostList();
 	}
 	
 	// Update is called once per frame
 	function Update () {
 		if(Time.time - startTime > 1000){
-			this.gameObject.GetComponent(Client).data = MasterServer.PollHostList();
+			data = MasterServer.PollHostList();
 		}
 	}
 	
 	function OnMasterServerEvent (msEvent : MasterServerEvent){
 		if(msEvent == MasterServerEvent.HostListReceived){
-			this.gameObject.GetComponent(Client).data = MasterServer.PollHostList();
+			data = MasterServer.PollHostList();
 		}
 	}
 	
 	function OnGUI() {
-		//GUILayout.BeginArea(Rect((Screen.width/2)-50,(Screen.height/2)-50,200,100));
-		if(this.gameObject.GetComponent(Client).data != null){
-			for (var element in this.gameObject.GetComponent(Client).data){
+		GUI.skin = this.gameObject.GetComponent(Client).guiSkin;
+		GUI.Box (Rect (0,0,Screen.width,Screen.height),"Find a Game");
+		GUILayout.BeginArea(Rect(0,0,1200,300));
+		
+		if(data != null){
+			for (var element in data){
 				GUILayout.BeginHorizontal();
-				var name = element.gameName + " " + element.connectedPlayers + " / " + element.playerLimit;
-				GUILayout.Label(name);	
-				GUILayout.Space(5);
-				var hostInfo : String;
-				hostInfo = "[";
-				for (var host in element.ip)
-					hostInfo = hostInfo + host + ":" + element.port + " ";
-				hostInfo = hostInfo + "]";
-				GUILayout.Label(hostInfo);
-				GUILayout.Space(5);
-				GUILayout.Label(element.comment);
-				GUILayout.Space(5);
+				var name = element.gameName;
+				var com = element.com.Split(" ");
+				GUILayout.Label(name);
+				var count = element.connectedPlayers + " / " + (com[0]);
+				GUILayout.Space(25);
+				GUILayout.Label(count);
+				GUILayout.Space(25);
+				GUILayout.Label(com[1]);
+				GUILayout.Space(25);
 				GUILayout.FlexibleSpace();
 				if (GUILayout.Button("Connect")){
-					Network.Connect(element);		
+					Network.Connect(element);
+					//add any info needed here
+					this.Transition(GameLobby);		
 				}
 				GUILayout.EndHorizontal();	
 			}
 		}
-		//if(GUILayout.Button("Join Game",GUILayout.Width(100))){
-		//	this.gameObject.AddComponent("GameLobby");
-		//	this.Transition("GameLobby");
-		//}
+		GUILayout.EndArea();
 		if(GUILayout.Button("Back",GUILayout.Width(100))){
-			this.Transition("MainMenu");
+			this.Transition(MainMenu);
 		}
-		//GUILayout.EndArea();
 	}
 	
-	function Transition(name : String){
+	function Transition(name : System.Type){
 		this.enabled = false;
 		this.gameObject.GetComponent(name).enabled = true;
 		Destroy(this);

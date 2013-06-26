@@ -23,7 +23,9 @@ public class CreateGame extends MonoBehaviour{
 	}
 	
 	function OnGUI() {
-		GUILayout.BeginArea(Rect(50,(Screen.height/4),100,600));
+		GUI.skin = this.gameObject.GetComponent(Client).guiSkin;
+		GUI.Box (Rect (0,0,Screen.width,Screen.height),"Game Creation");
+		GUILayout.BeginArea(Rect(50,(Screen.height/4),200,600));
 		//Ask for name
 		GUILayout.Label("Name:");
 		GUILayout.Label("Map:");
@@ -32,23 +34,23 @@ public class CreateGame extends MonoBehaviour{
 		GUILayout.Label("Kills:");
 		GUILayout.EndArea();
 		
-		GUILayout.BeginArea(Rect(175,(Screen.height/4),275,250));
+		GUILayout.BeginArea(Rect(275,(Screen.height/4),275,250));
 		gameName = GUILayout.TextField(gameName, 50);
 		
 		//map
-		map = GUILayout.SelectionGrid(map,mapNameArray,2);
+		map = GUILayout.Toolbar(map,mapNameArray);
 		
 		//player count
-		playerCnt = GUILayout.SelectionGrid(playerCnt,playerNumArray,5);
+		playerCnt = GUILayout.Toolbar(playerCnt,playerNumArray);
 		PlayerCnt = playerCnt;
 		//ask for time
-		gameTime = GUILayout.SelectionGrid(gameTime,gameTimeArray,5);
+		gameTime = GUILayout.Toolbar(gameTime,gameTimeArray);
 		if(gameTimeArray[gameTime] != "Infinity")
 			this.gameObject.GetComponent(Client).TotalGameTime = int.Parse(gameTimeArray[gameTime]);
 		else
 			this.gameObject.GetComponent(Client).TotalGameTime = -1;
 		//ask for kill count
-		maxKills = GUILayout.SelectionGrid(maxKills,gameMaxKillsArray,5);
+		maxKills = GUILayout.Toolbar(maxKills,gameMaxKillsArray);
 		if(gameMaxKillsArray[maxKills] != "Infinity")
 			this.gameObject.GetComponent(Client).GameMaxKills = int.Parse(gameMaxKillsArray[maxKills]);
 		else
@@ -57,14 +59,7 @@ public class CreateGame extends MonoBehaviour{
 		GUILayout.Space(50);
 		if(GUILayout.Button("Create Game",GUILayout.Width(100))){
 			if(!gameName.Equals("")){
-				var port : int = 25000;
-				var error : NetworkConnectionError;
-				do{
-					error = Network.InitializeServer(int.Parse(playerNumArray[PlayerCnt]), port, !Network.HavePublicAddress());
-					port++;
-				}
-				while(error != NetworkConnectionError.NoError);
-				MasterServer.RegisterHost("Flak", gameName,"");
+				this.gameObject.GetComponent(Client).MPMngr.CreateServer(gameName,playerCnt,map);
 				this.gameObject.AddComponent("GameLobby");
 				this.Transition("GameLobby");
 			}
@@ -78,6 +73,7 @@ public class CreateGame extends MonoBehaviour{
 		//let them choose the team count
 		GUILayout.EndArea();
 	}
+	
 	
 	function Transition(name : String){
 		this.enabled = false;
