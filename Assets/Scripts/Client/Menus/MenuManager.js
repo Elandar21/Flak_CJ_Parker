@@ -2,11 +2,8 @@
 public class MenuManager extends MonoBehaviour{
 	private var windTitle : String = "FLAK";
 	private var window = Login;
-	//For changing the size of the window
-	private var oldWindRect : Rect;
-	private var LargeWindRect : Rect = Rect(Screen.width/2-320,Screen.height/2-240, 640, 480);
-	private var smallWindRect : Rect = Rect(Screen.width/2-100,Screen.height/2-150, 300, 300);
-	private var windowRect : Rect = smallWindRect;
+	private var curWindow = window;
+	private var windowRect : Rect = Rect(Screen.width/2-320,Screen.height/2-240, 640, 480);
 	
 	//login variables
 	private var user : String = '';
@@ -28,7 +25,7 @@ public class MenuManager extends MonoBehaviour{
 	private var gameMaxKillsArray : String[] = ["Infinity","5","10","15","25"];
 	
 	//Find Game variables
-	private var startTime = Time.time;
+	private var startTime;
 	private var data : HostData[];
 	private var gameInstance : GameInstance;
 	
@@ -37,9 +34,24 @@ public class MenuManager extends MonoBehaviour{
 	private var mapTxtArray = ["Sewers.jpg","Warehouse.jpg"];
 	public var sewersTexture : Texture2D;
 	public var warehouseTexture : Texture2D;
+	//customization
+	public var charTexture : RenderTexture;
+	private var character : int = 0;
+	private var armor : int = 0;
+	private var characterArray : String[] = ["Human","Robot"];
+	private var armorArray : String[] = ["Light","Heavy"];
+	
+	function Start(){
+		startTime = Time.time;
+		charTexture.Create();
+	}
 	
 	function Awake(){
 		//see if I can prevent reset on reload
+		startTime = Time.timeSinceLevelLoad;
+		window = curWindow;
+		if(window == FindGame)
+			data = MasterServer.PollHostList();
 	}
 	
 	function OnGUI(){
@@ -49,52 +61,64 @@ public class MenuManager extends MonoBehaviour{
 	
 	function Update(){
 		//get the list of players and update it to the gameLobby
-		if(Time.time - startTime > 1000){
-			playerList = this.gameObject.GetComponent(Client).MPMngr.returnPlayerList();
+		if(startTime != null){
+			if(Time.timeSinceLevelLoad - startTime > 1000){
+				data = MasterServer.PollHostList();
+				startTime = Time.timeSinceLevelLoad;
+			}
+		}else{
+			startTime = Time.timeSinceLevelLoad;
+		}
+		if(curWindow != window){
+			curWindow = window;
+		}
+		if(windowRect.x != Screen.width/2-320 || windowRect.y != Screen.height/2-240){
+			windowRect.x = Screen.width/2-320;
+			windowRect.y = Screen.height/2-240;
 		}
 	}
 	
 	function Login(windowID : int) {
-		user = initFields(Rect(50,50,100,30),"Username: ",user,false);
-		pWord = initFields(Rect(50,90,100,30),"Password: ",pWord,true);
-		if(GUI.Button(Rect(100,150,100,50),"Login")){
+		user = initFields(Rect(220,100,100,30),"Username: ",user,false);
+		pWord = initFields(Rect(220,140,100,30),"Password: ",pWord,true);
+		if(GUI.Button(Rect(270,200,100,50),"Login")){
 			this.checkLogin();
 		}
-		if(GUI.Button(Rect(100,210,100,50),"Register")){
+		if(GUI.Button(Rect(270,260,100,50),"Register")){
 			Application.OpenURL("http://rinehartworks.com/Flak%202.0/Flak.html");
 		}
 		var Style = GUI.skin.GetStyle("Label");
     	Style.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(Rect(0,250,300,50),message,Style);
+		GUI.Label(Rect(170,310,300,50),message,Style);
 	}
 	
 	function MainMenu (windowID : int) {
 		windTitle = "Main Menu";
-		if(GUI.Button(Rect(75,50,150,50),"Create Game")){
+		message = "";
+		if(GUI.Button(Rect(245,100,150,50),"Create Game")){
 			window = CreateGame;
 		}
-		if(GUI.Button(Rect(75,100,150,50),"Find Game")){
+		if(GUI.Button(Rect(245,160,150,50),"Find Game")){
 			MasterServer.RequestHostList("Flak");
 			window = FindGame;
 		}
-		if(GUI.Button(Rect(75,150,150,50),"Customization")){
+		if(GUI.Button(Rect(245,220,150,50),"Customization")){
 			window = Customization;
 		}
-		if(GUI.Button(Rect(75,240,150,50),"Logout")){
+		if(GUI.Button(Rect(245,400,150,50),"Logout")){
 			window = Login;
 		}
 	}
 	
 	function CreateGame(windowID : int){
 		windTitle = "Create Game";
-		windowRect = LargeWindRect; //middle is 320
-		gameName = initFields(Rect(75,125,150,30),"Game Name: ",gameName,false);
-		playerCnt = ToolbarField(Rect(75,155,350,30),playerCnt,"Player Count:",playerNumArray);
-		gameTime = ToolbarField(Rect(75,185,350,30),gameTime,"Time:",gameTimeArray);
-		maxKills = ToolbarField(Rect(75,215,350,30),maxKills,"Kills:",gameMaxKillsArray);
-		if(GUI.Button(Rect(245,300,150,50),"Create Game")){
+		gameName = initFields(Rect(75,100,150,30),"Game Name: ",gameName,false);
+		playerCnt = ToolbarField(Rect(75,140,350,30),playerCnt,"Player Count:",playerNumArray);
+		gameTime = ToolbarField(Rect(75,180,350,30),gameTime,"Time:",gameTimeArray);
+		maxKills = ToolbarField(Rect(75,220,350,30),maxKills,"Kills:",gameMaxKillsArray);
+		if(GUI.Button(Rect(245,280,150,50),"Create Game")){
 			if(!gameName.Equals("")){
-				MultiplayerManager.instance.CreateServer(gameName,playerCnt,map);
+				MultiplayerManager.instance.CreateServer(gameName,playerNumArray[playerCnt],map);
 				gameInstance = new GameInstance();
 				gameInstance.name = gameName;
 				gameInstance.map = map;
@@ -104,11 +128,13 @@ public class MenuManager extends MonoBehaviour{
 				window = GameLobby;
 			}
 			else{
-				GUI.Label(Rect(245,465,300,50),"Game has no name");
+				message = "Cannot create a game with no name.";
 			}
 		}
-		if(GUI.Button(Rect(245,350,150,50),"Back")){
-			windowRect = smallWindRect;
+		var Style = GUI.skin.GetStyle("Label");
+    	Style.alignment = TextAnchor.MiddleCenter;
+		GUI.Label(Rect(170,400,300,30),message,Style);
+		if(GUI.Button(Rect(245,340,150,50),"Back")){
 			windTitle = "Main Menu";
 			window = MainMenu;
 		}
@@ -116,10 +142,10 @@ public class MenuManager extends MonoBehaviour{
 	
 	function GameLobby(windowID : int){
 		windTitle = "Game Lobby";
-		GUI.Label(Rect(0,0,100,30),"Players:");
-		GUILayout.BeginArea(Rect(0,30,300,300));
+		GUI.Label(Rect(0,50,100,30),"Players:");
+		GUILayout.BeginArea(Rect(0,80,300,300));
 		if(playerList != null){
-			for (var element in playerList){
+			for (var element in MultiplayerManager.instance.playerList){
 				GUILayout.BeginHorizontal();
 				var string = element.name;
 				GUILayout.Label(string);
@@ -127,42 +153,61 @@ public class MenuManager extends MonoBehaviour{
 			}
 		}
 		GUILayout.EndArea();
-		//mapTexture
-		//GUI.DrawTexture(Rect(300,0,200,200),mapTexture);
-		if(GUI.Button(Rect(245,430,150,50),"Back")){
-			windowRect = smallWindRect;
+		if(map == 0)
+			GUI.DrawTexture(Rect(340,50,200,200),sewersTexture);
+		else if(map == 1)
+			GUI.DrawTexture(Rect(340,50,200,200),warehouseTexture);
+		
+		if(GUI.Button(Rect(245,400,150,50),"Back")){
+			Network.Disconnect();
 			window = MainMenu;
 		}
 	}
 	
 	function FindGame(windowID : int){
 		windTitle = "Find Game";
-		GUILayout.BeginArea(Rect(0,0,640,300));
+		if(GUI.Button(Rect(245,400,150,50),"Back")){
+			window = MainMenu;
+		}
+		var Style = GUI.skin.GetStyle("Label");
+    	Style.alignment = TextAnchor.MiddleCenter;
+		GUI.Label(Rect(170,360,300,30),message,Style);
+		GUILayout.BeginArea(Rect(0,50,400,400));
 		if(data != null){
 			for (var element in data){
 				GUILayout.BeginHorizontal();
 				var string = element.gameName+"\t";
-				var com = element.com.Split(" ");
-				string += element.connectedPlayers + " / " + (com[0])+"\t\t"+com[1];
+				var com = element.comment;
+				var coms = com.Split(" "[0]);
+				string += element.connectedPlayers + " / " + (coms[0])+"\t\t"+coms[1];
 				if(GUILayout.Button(string)){
-					Network.Connect(element);
+					var error : NetworkConnectionError = Network.Connect(element);
+					if(error != NetworkConnectionError.NoError)
+						message = error.ToString();
 					window = GameLobby;
 				}
 				GUILayout.EndHorizontal();	
 			}
+		}else{
+			GUILayout.Label("No games currently exist");
 		}
 		GUILayout.EndArea();
-		if(GUI.Button(Rect(75,300,150,50),"Back")){
-			windowRect = smallWindRect;
-			window = MainMenu;
-		}
 	}
 	
 	function Customization(windowID : int){
 		windTitle = "Customization";
 		//middle is 320
-		if(GUI.Button(Rect(245,430,150,50),"Back")){
-			windowRect = smallWindRect;
+		character = ToolbarField(Rect(0,70,150,30),character,"Player: ",characterArray);
+		armor = ToolbarField(Rect(0,110,150,30),armor,"Armor Set: ",armorArray);
+		GUI.Label(Rect(320,50,100,30),"Player");
+		//charTexture.SetPixels(Color.black);
+		if(charTexture.IsCreated()){
+			GUI.DrawTexture(Rect(320,120,256,256),charTexture,ScaleMode.ScaleToFit);
+		}
+		else{
+			GUI.Label(Rect(320,240,150,30),"RTT not Finished");
+		}
+		if(GUI.Button(Rect(245,400,150,50),"Back")){
 			window = MainMenu;
 		}
 	}
@@ -220,7 +265,11 @@ public class MenuManager extends MonoBehaviour{
 			print(w.error);
 		}else{
 			if(loginFinished(w.text)){
-				MultiplayerManager.instance.username = user;
+				if(MultiplayerManager.instance != null)
+					MultiplayerManager.instance.username = user;
+				else{
+					Debug.LogError("MultiplayerManager is Null");
+				}
 				window = MainMenu;
 				message = "";
 			}
@@ -238,6 +287,13 @@ public class MenuManager extends MonoBehaviour{
 			return false;
 		}
 		return true;
+	}
+	
+	//for find game updating the hostlist
+	function OnMasterServerEvent (msEvent : MasterServerEvent){
+		if(msEvent == MasterServerEvent.HostListReceived){
+			data = MasterServer.PollHostList();
+		}
 	}
 	
 	public class GameInstance{
