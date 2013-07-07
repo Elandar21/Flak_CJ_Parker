@@ -3,13 +3,9 @@ class MultiplayerManager extends MonoBehaviour{
 	static public var instance : MultiplayerManager = null;
 	
 	public var username : String = '';
-	public var GameMap : String = '';
-	public var TotalGameTime : int = -1;
-	public var GameMaxKills : int = -1;
-	
 	private var mapNameArray : String[] = ["Sewer","Warehouse"];
 	public var playerList = new Array();
-	private var playerCnt;
+	public var gameInst : GameInstance;
 	
 	function Start(){
 		instance = this;
@@ -20,7 +16,7 @@ class MultiplayerManager extends MonoBehaviour{
 		instance = this;
 	}
 	
-	public function CreateServer(gameName: String,playerTotal : String,mapId : int){
+	public function CreateServer(gameInstance : GameInstance){
 		var port : int = 25000;
 		var error : NetworkConnectionError;
 		Network.Disconnect();
@@ -30,9 +26,8 @@ class MultiplayerManager extends MonoBehaviour{
 			port++;
 		}
 		while(error != NetworkConnectionError.NoError);
-		playerCnt = parseInt(playerTotal);
-		MasterServer.RegisterHost("Flak", gameName,playerTotal.ToString()+" "+mapNameArray[mapId]);
-		GameMap = mapNameArray[mapId];
+		this.gameInst = gameInstance;
+		MasterServer.RegisterHost("Flak",gameInst.name,gameInst.playerCnt.ToString()+" "+mapNameArray[gameInst.map]);
 	}
 	
 	//adds the connecting player to all the clients
