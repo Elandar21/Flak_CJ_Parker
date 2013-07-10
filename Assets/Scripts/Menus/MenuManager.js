@@ -35,6 +35,9 @@ public class MenuManager extends MonoBehaviour{
 	private var mapTxtArray = ["Sewers.jpg","Warehouse.jpg"];
 	public var sewersTexture : Texture2D;
 	public var warehouseTexture : Texture2D;
+	private var countDown : boolean = false;
+	private var timeStart : int;
+	private var count : int;
 	
 	//customization
 	public var charTexture : RenderTexture;
@@ -60,7 +63,11 @@ public class MenuManager extends MonoBehaviour{
 	private var prmAbContent : GUIContent[];
 	private var sndAbContent : GUIContent[];
 	private var object : Transform;
-	
+	//Options Menu
+	public var musicVol : int = 100;
+	public var soundVol : int = 100;
+	//Start game
+	private var level : AsyncOperation;
 	
 	function Start(){
 		startTime = Time.time;
@@ -79,39 +86,59 @@ public class MenuManager extends MonoBehaviour{
 			sndAbContent = [GUIContent(sndAbility[0],"Armor Plating"),GUIContent(sndAbility[1],"Reality Check"),GUIContent(sndAbility[2],"Sprint"),
 							GUIContent(sndAbility[3],"Crouch Radar"),GUIContent(sndAbility[4],"Infared"),GUIContent(sndAbility[5],"Servo-mechanics")];
 		}
+		DontDestroyOnLoad(this.gameObject);
 	}
 	
 	function Awake(){
 		//see if I can prevent reset on reload
 		startTime = Time.timeSinceLevelLoad;
 		window = curWindow;
-		if(window == FindGame)
-			data = MasterServer.PollHostList();
+		if(window == FindGame){
+			MasterServer.RequestHostList("Flak");
+		}
 		character = oldChar;
 		armor = oldArmor;
 	}
 	
 	function OnGUI(){
 		if(!this.gameObject.GetComponent(Client).inGame){
-			GUI.DrawTexture(Rect(0,0,Screen.width,Screen.height),menuImg,ScaleMode.ScaleToFit);
+			GUI.DrawTexture(Rect(0,0,Screen.width,Screen.height),menuImg,ScaleMode.StretchToFill);
 			GUI.skin = this.gameObject.GetComponent(Client).guiSkin;
-			windowRect = GUI.Window (0, windowRect, window, windTitle);
+			windowRect = GUI.Window (0, windowRect, window, "");
 		}
 	}
 	
 	function Update(){
 		//get the list of players and update it to the gameLobby
 		if(startTime != null){
-			if(Time.timeSinceLevelLoad - startTime > 1000){
-				data = MasterServer.PollHostList();
-				startTime = Time.timeSinceLevelLoad;
+			if(timeStart - Time.timeSinceLevelLoad > 10){
+				MasterServer.RequestHostList("Flak");
+				timeStart = Time.timeSinceLevelLoad;
+			}
+			//start game countdown
+			if(countDown){
+				count = timeStart - Time.timeSinceLevelLoad;
+				message = "Game start in: "+count;
+				if(count == 0 && level.isDone){
+					level.allowSceneActivation = true;
+					Client.instance.gameStart();
+					message = "";
+					enabled = false;
+				}
 			}
 		}else{
 			startTime = Time.timeSinceLevelLoad;
 		}
+		
+		if(MasterServer.PollHostList().Length != 0){
+			data = MasterServer.PollHostList();
+			MasterServer.ClearHostList();
+		}
+		
 		if(curWindow != window){
 			curWindow = window;
 		}
+		//updates the position of the Rect
 		if(windowRect.x != Screen.width/2-320 || windowRect.y != Screen.height/2-240){
 			windowRect.x = Screen.width/2-320;
 			windowRect.y = Screen.height/2-240;
@@ -144,18 +171,24 @@ public class MenuManager extends MonoBehaviour{
 	function MainMenu (windowID : int) {
 		windTitle = "Main Menu";
 		message = "";
-		if(GUI.Button(Rect(20,100,150,50),"Create Game")){
+		if(GUI.Button(Rect(85,100,150,50),"Create Game")){
 			window = CreateGame;
 		}
-		if(GUI.Button(Rect(20,160,150,50),"Find Game")){
+		if(GUI.Button(Rect(85,160,150,50),"Find Game")){
 			MasterServer.RequestHostList("Flak");
 			window = FindGame;
 		}
-		if(GUI.Button(Rect(20,220,150,50),"Customization")){
+		if(GUI.Button(Rect(85,220,150,50),"Customization")){
 			window = Customization;
 		}
-		if(GUI.Button(Rect(20,280,150,50),"Credits")){
+		if(GUI.Button(Rect(85,280,150,50),"Options")){
+			window = Options;
+		}
+		if(GUI.Button(Rect(85,340,150,50),"Credits")){
 			window = Credits;
+		}
+		if(GUI.Button(Rect(320,350,150,50),"Stats")){
+			window = Stats;
 		}
 		GUI.Label(Rect(320,50,100,30),"Player");
 		if(charTexture.IsCreated()){
@@ -165,7 +198,7 @@ public class MenuManager extends MonoBehaviour{
 			GUI.DrawTexture(Rect(320,80,256,256),charAltImg,ScaleMode.ScaleToFit);
 			GUI.Label(Rect(320,240,150,30),"RTT not Finished");
 		}
-		if(GUI.Button(Rect(245,400,150,50),"Logout")){
+		if(GUI.Button(Rect(85,400,150,50),"Logout")){
 			window = Login;
 		}
 	}
@@ -173,10 +206,11 @@ public class MenuManager extends MonoBehaviour{
 	function CreateGame(windowID : int){
 		windTitle = "Create Game";
 		gameName = initFields(Rect(75,100,150,30),"Game Name: ",gameName,false);
-		playerCnt = ToolbarField(Rect(75,140,350,30),playerCnt,"Player Count:",playerNumArray);
-		gameTime = ToolbarField(Rect(75,180,350,30),gameTime,"Time:",gameTimeArray);
-		maxKills = ToolbarField(Rect(75,220,350,30),maxKills,"Kills:",gameMaxKillsArray);
-		if(GUI.Button(Rect(245,280,150,50),"Create Game")){
+		map = ToolbarField(Rect(75,140,350,30),map,"Map:",mapNameArray);
+		playerCnt = ToolbarField(Rect(75,180,350,30),playerCnt,"Player Count:",playerNumArray);
+		gameTime = ToolbarField(Rect(75,230,350,30),gameTime,"Time:",gameTimeArray);
+		maxKills = ToolbarField(Rect(75,270,350,30),maxKills,"Kills:",gameMaxKillsArray);
+		if(GUI.Button(Rect(150,340,150,50),"Create Game")){
 			if(!gameName.Equals("")){
 				gameInstance = new GameInstance();
 				gameInstance.name = gameName;
@@ -193,8 +227,8 @@ public class MenuManager extends MonoBehaviour{
 		}
 		var Style = GUI.skin.GetStyle("Label");
     	Style.alignment = TextAnchor.MiddleCenter;
-		GUI.Label(Rect(170,400,300,30),message,Style);
-		if(GUI.Button(Rect(245,340,150,50),"Back")){
+		GUI.Label(Rect(170,300,300,30),message,Style);
+		if(GUI.Button(Rect(330,340,150,50),"Back")){
 			windTitle = "Main Menu";
 			window = MainMenu;
 		}
@@ -203,7 +237,7 @@ public class MenuManager extends MonoBehaviour{
 	function GameLobby(windowID : int){
 		windTitle = "Game Lobby";
 		GUI.Label(Rect(0,50,100,30),"Players:");
-		GUILayout.BeginArea(Rect(0,80,300,300));
+		GUILayout.BeginArea(Rect(0,80,150,300));
 		if(playerList != null){
 			for (var element in MultiplayerManager.instance.playerList){
 				GUILayout.BeginHorizontal();
@@ -213,20 +247,41 @@ public class MenuManager extends MonoBehaviour{
 			}
 		}
 		GUILayout.EndArea();
-		if(map == 0)
-			GUI.DrawTexture(Rect(340,50,200,200),sewersTexture);
-		else if(map == 1)
-			GUI.DrawTexture(Rect(340,50,200,200),warehouseTexture);
-		
-		if(GUI.Button(Rect(245,400,150,50),"Back")){
-			Network.Disconnect();
-			window = MainMenu;
+		if(map == 0){
+			GUI.Label(Rect(140,50,150,30),"Sewers");
+			GUI.DrawTexture(Rect(350,10,250,200),sewersTexture);
+		}
+		else if(map == 1){
+			GUI.Label(Rect(140,50,150,30),"Warehouse");
+			GUI.DrawTexture(Rect(350,10,250,200),warehouseTexture);
+		}
+		//List more information about the Game
+		GUI.Label(Rect(350,210,150,30),"Game Time: ");
+		GUI.Label(Rect(350,240,150,30),"Max Kills: ");
+		if(countDown)
+			GUI.Label(Rect(350,270,150,30),message);
+		if(GUI.Button(Rect(150,380,150,50),"Ready")){
+			//Sends a ready check to the server.
+			//When all clients are ready the game begins.
+			if(Network.isClient)
+				networkView.RPC("ReadyCheck",RPCMode.Server,Network.player);
+			else
+				MultiplayerManager.instance.ReadyCheck(Network.player);
+		}
+		if(GUI.Button(Rect(330,380,150,50),"Back")){
+			if(!countDown){
+				if(Network.isServer)
+					MultiplayerManager.instance.ServerShutdown();
+				else
+					Network.Disconnect();
+				window = MainMenu;
+			}
 		}
 	}
 	
 	function FindGame(windowID : int){
 		windTitle = "Find Game";
-		if(GUI.Button(Rect(245,400,150,50),"Back")){
+		if(GUI.Button(Rect(245,380,150,50),"Back")){
 			window = MainMenu;
 		}
 		var Style = GUI.skin.GetStyle("Label");
@@ -239,11 +294,17 @@ public class MenuManager extends MonoBehaviour{
 				var string = element.gameName+"\t";
 				var com = element.comment;
 				var coms = com.Split(" "[0]);
-				string += element.connectedPlayers + " / " + (coms[0])+"\t\t"+coms[1];
+				string += element.connectedPlayers + " / " + (coms[0])+"\t"+mapNameArray[parseInt(coms[1])];
+				string += "\tGame Time:"+coms[2]+"\tGame Time:"+coms[3];
 				if(GUILayout.Button(string)){
 					var error : NetworkConnectionError = Network.Connect(element);
 					if(error != NetworkConnectionError.NoError)
 						message = error.ToString();
+					var gameInst = new GameInstance();
+					gameInst.name = element.gameName;
+					gameInst.map = parseInt(coms[1]);
+					gameInst.gameTime = parseInt(coms[2]);
+					gameInst.maxKills = parseInt(coms[3]);
 					window = GameLobby;
 				}
 				GUILayout.EndHorizontal();	
@@ -256,15 +317,14 @@ public class MenuManager extends MonoBehaviour{
 	
 	function Customization(windowID : int){
 		windTitle = "Customization";
-		//middle is 320
 		character = ToolbarField(Rect(0,60,150,30),character,"Player: ",characterArray);
 		armor = ToolbarField(Rect(0,100,150,30),armor,"Armor Set: ",armorArray);
 		if((healContent.Length != 0 || shieldContent.Length != 0) || (prmAbContent.Length != 0 || sndAbContent.Length != 0)){
 			heal = ToolbarField(Rect(0,140,150,30),heal,"Health: ",healContent);
 			shield = ToolbarField(Rect(0,180,150,30),shield,"Shield: ",shieldContent);
 			GUI.Label(Rect(0,210,100,30),"Abilities:");
-			prmAb = SelGridField(Rect(0,250, 150, 90),prmAb,"Primary:",prmAbContent,3);
-			sndAb = SelGridField(Rect(0,360, 150, 90),sndAb,"Secondary:",sndAbContent,3);
+			prmAb = SelGridField(Rect(0,240, 150, 90),prmAb,"Primary:",prmAbContent,3);
+			sndAb = SelGridField(Rect(0,340, 150, 90),sndAb,"Secondary:",sndAbContent,3);
 		}else{
 			Debug.LogError("Content for toolbars is empty");
 		} 
@@ -274,12 +334,46 @@ public class MenuManager extends MonoBehaviour{
 		}
 		else{
 			GUI.DrawTexture(Rect(320,80,256,256),charAltImg,ScaleMode.ScaleToFit);
-			GUI.Label(Rect(320,240,150,30),"RTT not Finished");
+			GUI.Label(Rect(320,80,150,30),"RTT not Finished");
 		}
-		if(GUI.Button(Rect(245,340,150,50),"Save")){
+		if(GUI.Button(Rect(310,380,150,50),"Save")){
 			//Save the data to the player
+			Client.instance.species = character;
+			Client.instance.armor = armor;
+			Client.instance.heal = heal;
+			Client.instance.shield = shield;
+			Client.instance.prmAb = prmAb;
+			Client.instance.sndAb = sndAb;
 		}
-		if(GUI.Button(Rect(245,400,150,50),"Back")){
+		if(GUI.Button(Rect(470,380,150,50),"Back")){
+			window = MainMenu;
+			character = Client.instance.species;
+			armor = Client.instance.armor;
+		}
+	}
+	
+	function Options(windowID : int){
+		windTitle = "Options";
+		//Flesh out the Options Menu
+		GUI.Label(Rect(65,50,150,30),"Volume:");
+		musicVol = LabelSlider(Rect(85,80,150,30),musicVol,100,"Music:");
+		soundVol =  LabelSlider(Rect(85,120,150,30),soundVol,100,"Sound:");
+		//Graphics
+		GUI.Label(Rect(65,150,150,30),"Graphics:");
+		//Controller Layout
+		
+		if(GUI.Button(Rect(245,380,150,50),"Back")){
+			window = MainMenu;
+		}
+	}
+	
+	function Stats(windowID : int){
+		GUI.Label(Rect(10,50,250,30),"Player Stats (NOT FINISHED)");
+		GUI.Label(Rect(10,100,150,30),"Kills: ");
+		GUI.Label(Rect(10,150,150,30),"Wins: ");
+		GUI.Label(Rect(10,200,150,30),"K/D Ratio:");
+		GUI.Label(Rect(10,250,150,30),"Games:");
+		if(GUI.Button(Rect(245,380,150,50),"Back")){
 			window = MainMenu;
 		}
 	}
@@ -289,8 +383,8 @@ public class MenuManager extends MonoBehaviour{
 		var creditStr = "Programmers:\nParker Gosline\nChristopher Rinehart\n\n";
 		creditStr += "Artists:\nEmily Blaske\nSara Blaske\nClinton Carr\nJanette Goering\n";
 		creditStr += "Kelly Hetke\nWesley Paquette\nCorey Roth\nJacob Strahler\nScott Wardell";
-		GUI.Label(Rect(170,20,300,380),creditStr);
-		if(GUI.Button(Rect(245,400,150,50),"Back")){
+		GUI.Label(Rect(170,15,300,380),creditStr);
+		if(GUI.Button(Rect(245,380,150,50),"Back")){
 			window = MainMenu;
 		}
 	}
@@ -347,9 +441,12 @@ public class MenuManager extends MonoBehaviour{
 
 	function SelGridField(screenRect : Rect,curSelection : int, labelName : String,dataArray : GUIContent[],rows){
 		var width = screenRect.width;
+		var height = screenRect.height;
+		screenRect.height = 30;
 		screenRect.width = 150;
 		GUI.Label (screenRect, labelName);
 		screenRect.x += screenRect.width;
+		screenRect.height = height;
 		screenRect.width = width;
 		var index = GUI.SelectionGrid(screenRect,curSelection,dataArray,rows);
 		return index;
@@ -397,5 +494,14 @@ public class MenuManager extends MonoBehaviour{
 		if(msEvent == MasterServerEvent.HostListReceived){
 			data = MasterServer.PollHostList();
 		}
+	}
+	
+	@RPC
+	function StartGame(){
+		message = "Loading Level";
+		timeStart = Time.timeSinceLevelLoad+5;
+		countDown = true;
+		level = Application.LoadLevelAsync(MultiplayerManager.instance.gameInst.map+1);
+		level.allowSceneActivation = false;
 	}
 }

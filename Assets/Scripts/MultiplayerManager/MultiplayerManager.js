@@ -12,6 +12,7 @@ class MultiplayerManager extends MonoBehaviour{
 		var conTest : ConnectionTesterStatus;
 		conTest = Network.TestConnection(true);
 	}
+	
 	function Awake(){
 		instance = this;
 	}
@@ -27,7 +28,7 @@ class MultiplayerManager extends MonoBehaviour{
 		}
 		while(error != NetworkConnectionError.NoError);
 		this.gameInst = gameInstance;
-		MasterServer.RegisterHost("Flak",gameInst.name,gameInst.playerCnt.ToString()+" "+mapNameArray[gameInst.map]);
+		MasterServer.RegisterHost("Flak",gameInst.name,gameInst.playerCnt.ToString()+" "+gameInst.map.ToString()+" "+gameInst.gameTime.ToString()+" "+gameInst.maxKills.ToString());
 	}
 	
 	//adds the connecting player to all the clients
@@ -57,6 +58,11 @@ class MultiplayerManager extends MonoBehaviour{
 		this.gameObject.networkView.RPC("Client_RemovePlayer", RPCMode.All, id);
 	}
 	
+	public function ServerShutdown(){
+		Client_RemovePlayer(Network.player);
+		Network.Disconnect();
+	}
+	
 	@RPC
 	function Client_RemovePlayer(view: NetworkPlayer){
 		var tempPlayer : player = null;
@@ -70,8 +76,24 @@ class MultiplayerManager extends MonoBehaviour{
 		}
 	}
 	
+	//Ready Check
+	@RPC
+	function ReadyCheck(view: NetworkPlayer){
+		var ready = true;
+		for(pl in playerList){
+			if(pl.network == view){
+				pl.ready = true;
+			}
+			if(!pl.ready)
+				ready = false;
+		}
+		if(ready)
+			networkView.RPC("StartGame",RPCMode.All);
+	}
+	
 	public class player{
 		public var name : String;
 		public var network : NetworkPlayer;
+		public var ready : boolean = false;
 	}
 }
