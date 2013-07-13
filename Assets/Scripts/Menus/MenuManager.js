@@ -86,7 +86,6 @@ public class MenuManager extends MonoBehaviour{
 			sndAbContent = [GUIContent(sndAbility[0],"Armor Plating"),GUIContent(sndAbility[1],"Reality Check"),GUIContent(sndAbility[2],"Sprint"),
 							GUIContent(sndAbility[3],"Crouch Radar"),GUIContent(sndAbility[4],"Infared"),GUIContent(sndAbility[5],"Servo-mechanics")];
 		}
-		DontDestroyOnLoad(this.gameObject);
 	}
 	
 	function Awake(){
@@ -108,6 +107,13 @@ public class MenuManager extends MonoBehaviour{
 		}
 	}
 	
+	function start(){
+		level.allowSceneActivation = true;
+		Client.instance.gameStart();
+		message = "";
+		enabled = false;
+	}
+	
 	function Update(){
 		//get the list of players and update it to the gameLobby
 		if(startTime != null){
@@ -119,11 +125,8 @@ public class MenuManager extends MonoBehaviour{
 			if(countDown){
 				count = timeStart - Time.timeSinceLevelLoad;
 				message = "Game start in: "+count;
-				if(count == 0 && level.isDone){
-					level.allowSceneActivation = true;
-					Client.instance.gameStart();
-					message = "";
-					enabled = false;
+				if(count == 0){
+					start();
 				}
 			}
 		}else{
@@ -340,8 +343,8 @@ public class MenuManager extends MonoBehaviour{
 			//Save the data to the player
 			Client.instance.species = character;
 			Client.instance.armor = armor;
-			Client.instance.heal = heal;
-			Client.instance.shield = shield;
+			Client.instance.healAb = heal;
+			Client.instance.shieldAb = shield;
 			Client.instance.prmAb = prmAb;
 			Client.instance.sndAb = sndAb;
 		}

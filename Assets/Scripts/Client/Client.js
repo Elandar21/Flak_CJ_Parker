@@ -1,26 +1,54 @@
 #pragma strict
 //Contains any global information
 
+//GUI
 public var guiSkin : GUISkin;
 public var inGame : boolean = false;
 public var visorArray : Texture2D[];
+//Player
 public var species : int = 0;
+private var player : Transform;
+private var charArmor : Transform[];
+public var Health : int = 100;
+public var Shield : int = 100;
+//Abilities
 public var armor : int = 0;
-public var heal : int = 0;
-public var shield : int = 0;
+public var healAb : int = 0;
+public var shieldAb : int = 0;
 public var prmAb : int = 0;
 public var sndAb : int = 0;
-private var charArmor : Transform[];
-private var player : Transform;
+//Instance
 static public var instance : Client = null;
 
 
 function Start (){
 	instance = this;
+	DontDestroyOnLoad(this.gameObject);
+}
+
+function Awak(){
+	instance = this;
 }
 
 function Update (){
-	instance = this;
+	if(inGame){
+		//INPUT 
+		//Put in bonuses to speed and other factors  prevent player from going through the level.
+		var translationZ : float = Input.GetAxis("Vertical") * 5.0f;
+		var translationX : float = Input.GetAxis("Horizontal") * 5.0f;
+	    var rotationOnY : float = Input.GetAxis("Mouse X") * 300.0f;
+	    var rotationOnX : float = Input.GetAxis("Mouse Y") * -300.0f;
+	    
+	    translationZ *= Time.deltaTime;
+	    translationX *= Time.deltaTime;
+	    rotationOnX *= Time.deltaTime;
+	    rotationOnY *= Time.deltaTime;
+	    //Moves just the player
+	  	player.Translate(translationX, 0, translationZ);
+	    player.Rotate(0, rotationOnY, 0);
+	    //Rotates just the Camera
+	    transform.Rotate(rotationOnX,0,0);
+    }
 }
 
 function OnGUI(){
@@ -51,6 +79,7 @@ function gameStart(){
  		case 3:
  			cameraTransform.localPosition = Vector3(0.0f,2f,0.0f);
  	}
+ 	DontDestroyOnLoad(player.gameObject);
  	inGame = true;
 }
 
