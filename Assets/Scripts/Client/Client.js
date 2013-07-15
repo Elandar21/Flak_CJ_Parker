@@ -23,7 +23,6 @@ static public var instance : Client = null;
 
 function Start (){
 	instance = this;
-	DontDestroyOnLoad(this.gameObject);
 }
 
 function Awak(){
@@ -31,24 +30,7 @@ function Awak(){
 }
 
 function Update (){
-	if(inGame){
-		//INPUT 
-		//Put in bonuses to speed and other factors  prevent player from going through the level.
-		var translationZ : float = Input.GetAxis("Vertical") * 5.0f;
-		var translationX : float = Input.GetAxis("Horizontal") * 5.0f;
-	    var rotationOnY : float = Input.GetAxis("Mouse X") * 300.0f;
-	    var rotationOnX : float = Input.GetAxis("Mouse Y") * -300.0f;
-	    
-	    translationZ *= Time.deltaTime;
-	    translationX *= Time.deltaTime;
-	    rotationOnX *= Time.deltaTime;
-	    rotationOnY *= Time.deltaTime;
-	    //Moves just the player
-	  	player.Translate(translationX, 0, translationZ);
-	    player.Rotate(0, rotationOnY, 0);
-	    //Rotates just the Camera
-	    transform.Rotate(rotationOnX,0,0);
-    }
+
 }
 
 function OnGUI(){
@@ -80,6 +62,7 @@ function gameStart(){
  			cameraTransform.localPosition = Vector3(0.0f,2f,0.0f);
  	}
  	DontDestroyOnLoad(player.gameObject);
+ 	player.gameObject.AddComponent(Input_Handler);
  	inGame = true;
 }
 
@@ -92,4 +75,4 @@ function SpawnPnt(){
 	spwnID = Random.Range(0,spwnPnts.Length);
 	return spwnPnts[spwnID];
 }
-//when the game starts the camera will parent to the mesh keeping the client script
+//Rework game creation and seperate Game events from Mulitplayer Manager
