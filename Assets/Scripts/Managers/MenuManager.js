@@ -1,5 +1,6 @@
 
 public class MenuManager extends MonoBehaviour{
+	static var inst : MenuManager = null;
 	private var windTitle : String = "FLAK";
 	private var window = Login;
 	private var curWindow = window;
@@ -26,17 +27,15 @@ public class MenuManager extends MonoBehaviour{
 	private var gameMaxKillsArray : String[] = ["Infinity","5","10","15","25"];
 	
 	//Find Game variables
-	private var startTime;
+	public var startTime;
 	private var data : HostData[];
-	private var gameInstance : GameInstance;
 	
 	//Game Lobby
 	private var playerList = [];
 	private var mapTxtArray = ["Sewers.jpg","Warehouse.jpg"];
 	public var sewersTexture : Texture2D;
 	public var warehouseTexture : Texture2D;
-	private var countDown : boolean = false;
-	private var timeStart : int;
+	public var countDown : boolean = false;
 	private var count : int;
 	
 	//customization
@@ -67,10 +66,11 @@ public class MenuManager extends MonoBehaviour{
 	public var musicVol : int = 100;
 	public var soundVol : int = 100;
 	//Start game
-	private var level : AsyncOperation;
+	public var level : AsyncOperation;
 	
 	function Start(){
-		startTime = Time.time;
+		inst = this;
+		startTime = Time.timeSinceLevelLoad;
 		charTexture.Create();
 		if(charArmor.Length != 0)
 			object = Instantiate(charArmor[(character*2+(armor))],menuRTTSpawn.position,Quaternion.identity);
@@ -86,6 +86,8 @@ public class MenuManager extends MonoBehaviour{
 			sndAbContent = [GUIContent(sndAbility[0],"Armor Plating"),GUIContent(sndAbility[1],"Reality Check"),GUIContent(sndAbility[2],"Sprint"),
 							GUIContent(sndAbility[3],"Crouch Radar"),GUIContent(sndAbility[4],"Infared"),GUIContent(sndAbility[5],"Servo-mechanics")];
 		}
+		if(MultiplayerManager.instance.username != "")
+			window = MainMenu;
 	}
 	
 	function Awake(){
@@ -107,23 +109,16 @@ public class MenuManager extends MonoBehaviour{
 		}
 	}
 	
-	function start(){
-		level.allowSceneActivation = true;
-		Client.instance.gameStart();
-		message = "";
-		enabled = false;
-	}
-	
 	function Update(){
 		//get the list of players and update it to the gameLobby
 		if(startTime != null){
-			if(timeStart - Time.timeSinceLevelLoad > 10){
+			if(startTime - Time.timeSinceLevelLoad > 10){
 				MasterServer.RequestHostList("Flak");
-				timeStart = Time.timeSinceLevelLoad;
+				startTime = Time.timeSinceLevelLoad;
 			}
 			//start game countdown
 			if(countDown){
-				count = timeStart - Time.timeSinceLevelLoad;
+				count = startTime - Time.timeSinceLevelLoad;
 				message = "Game start in: "+count;
 				if(count == 0){
 					start();
@@ -154,6 +149,10 @@ public class MenuManager extends MonoBehaviour{
 			object = Instantiate(charArmor[(character*2+(armor))],menuRTTSpawn.position,Quaternion.identity);
 			oldChar = character;
 			oldArmor = armor;
+		}
+		if(level){
+			if(level.isDone)
+				message = "Level Loaded";
 		}
 	}
 	
@@ -215,13 +214,14 @@ public class MenuManager extends MonoBehaviour{
 		maxKills = ToolbarField(Rect(75,270,350,30),maxKills,"Kills:",gameMaxKillsArray);
 		if(GUI.Button(Rect(150,340,150,50),"Create Game")){
 			if(!gameName.Equals("")){
-				gameInstance = new GameInstance();
+				var gameInstance = new GameInstance();
 				gameInstance.name = gameName;
 				gameInstance.map = map;
 				gameInstance.gameTime = gameTime;
 				gameInstance.maxKills = maxKills;
 				gameInstance.playerCnt = playerCnt;
 				MultiplayerManager.instance.CreateServer(gameInstance);
+				enterGameLobby();
 				window = GameLobby;
 			}
 			else{
@@ -269,7 +269,7 @@ public class MenuManager extends MonoBehaviour{
 			if(Network.isClient)
 				networkView.RPC("ReadyCheck",RPCMode.Server,Network.player);
 			else
-				MultiplayerManager.instance.ReadyCheck(Network.player);
+				GameManager.inst.ReadyCheck(Network.player);
 		}
 		if(GUI.Button(Rect(330,380,150,50),"Back")){
 			if(!countDown){
@@ -308,6 +308,8 @@ public class MenuManager extends MonoBehaviour{
 					gameInst.map = parseInt(coms[1]);
 					gameInst.gameTime = parseInt(coms[2]);
 					gameInst.maxKills = parseInt(coms[3]);
+					GameManager.inst.gameInst = gameInst;
+					enterGameLobby();
 					window = GameLobby;
 				}
 				GUILayout.EndHorizontal();	
@@ -499,12 +501,14 @@ public class MenuManager extends MonoBehaviour{
 		}
 	}
 	
-	@RPC
-	function StartGame(){
+	function start(){
+		message = "";
+		enabled = false;
+	}
+	
+	function enterGameLobby(){
 		message = "Loading Level";
-		timeStart = Time.timeSinceLevelLoad+5;
-		countDown = true;
-		level = Application.LoadLevelAsync(MultiplayerManager.instance.gameInst.map+1);
+		level = Application.LoadLevelAsync(GameManager.inst.gameInst.map+1);
 		level.allowSceneActivation = false;
 	}
 }

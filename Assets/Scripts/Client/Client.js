@@ -9,8 +9,8 @@ public var visorArray : Texture2D[];
 public var species : int = 0;
 private var player : Transform;
 private var charArmor : Transform[];
-public var Health : int = 100;
-public var Shield : int = 100;
+private var Health : int = 100;
+private var Shield : int = 100;
 //Abilities
 public var armor : int = 0;
 public var healAb : int = 0;
@@ -20,17 +20,34 @@ public var sndAb : int = 0;
 //Instance
 static public var instance : Client = null;
 
-
 function Start (){
 	instance = this;
 }
 
-function Awak(){
+function Awake(){
 	instance = this;
 }
 
 function Update (){
+	if((Time.timeSinceLevelLoad - lastDamage) > 3.0f){
+		shield += 1;  //add the bonus recharge rate in
+	} 
+}
 
+function TakeDamage(Damage : int,Shooter : NetworkPlayer){
+	if(shield <= 0.0f){
+		Health -= Damage;
+		if(Health < 0.0f){
+			Health = 0;
+			networkView.RPC("Death",RPCMode.All,Shooter,Network.player);
+		}
+	}
+	else{
+		shield -= Damage;
+		if(shield < 0.0f)
+			shield = 0;
+	}
+	lastDamage = Time.timeSinceLevelLoad();
 }
 
 function OnGUI(){
@@ -39,9 +56,9 @@ function OnGUI(){
 	}
 }
 
-function gameStart(){
+function Spawn(){
 	charArmor = gameObject.GetComponent(MenuManager).charArmor;
-	var spwnPnt : GameObject = SpawnPnt();
+	var spwnPnt : GameObject = GameManager.gameInst.SpawnPnt();
 	if(spwnPnt != null)
 		player = Network.Instantiate(charArmor[(species*2+(armor))],spwnPnt.transform.position,spwnPnt.transform.rotation,0);
 	else
@@ -63,16 +80,4 @@ function gameStart(){
  	}
  	DontDestroyOnLoad(player.gameObject);
  	player.gameObject.AddComponent(Input_Handler);
- 	inGame = true;
 }
-
-function SpawnPnt(){
-	var spwnID : int;
-	var spwnPnts : GameObject[] = GameObject.FindGameObjectsWithTag("Respawn");
-	if(spwnPnts.Length == 0){
-		return null;
-	}
-	spwnID = Random.Range(0,spwnPnts.Length);
-	return spwnPnts[spwnID];
-}
-//Rework game creation and seperate Game events from Mulitplayer Manager
