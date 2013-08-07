@@ -504,6 +504,7 @@ public class MenuManager extends MonoBehaviour{
 	function start(){
 		message = "";
 		enabled = false;
+		gameObject.GetComponent(Client).inGame = true;
 	}
 	
 	function enterGameLobby(){

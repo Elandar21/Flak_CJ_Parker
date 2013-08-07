@@ -2,12 +2,15 @@ public class GameStats{
 	public var playerList = new Array();
 	
 	function Death(killer: NetworkPlayer, victim : NetworkPlayer){
+		var tempPlayer : player;
 		for(pl in playerList){
 			if(pl.network == killer){
-				pl.Kills++;
+				tempPlayer = pl;
+				tempPlayer.Kills++;
 			}
 			if(pl.network == victim){
-				pl.Deaths++;
+				tempPlayer = pl;
+				tempPlayer.Deaths++;
 			}
 		}
 	}
